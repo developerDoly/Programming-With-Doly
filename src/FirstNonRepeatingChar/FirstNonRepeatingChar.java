@@ -1,23 +1,60 @@
 package FirstNonRepeatingChar;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
 /**
  * The purpose of this program is to find the first non-repeating char in a String.
+ * @author developerDoly
+ *
+ * Info on input file:
+ * Strings will be separated by new-line, don't process blank lines.
  */
 public class FirstNonRepeatingChar {
+
+    public static final String FILE_NAME = "input.txt"; //this is a class constant, notice the convention of all-caps and underscores rather than camelcase
 
     //I looked up "how many chars are there" and I could have used 128 but an extra 128 isn't too bad in this case
     private static int[] tracker = new int[256];
 
-    private static String noRepeats = "subdermatoglyphic";
-    private static String longestWord = "pneumonoultramicroscopicsilicovolcanoconiosis";
+    private static String currentString;
 
-    public static void main(String[] args){
-        //first count letters in the word
-        countLetters(noRepeats);
+    public static void main(String[] args) throws IOException {//I will show you guys try/catch blocks later
 
-        //second go through word and see if letter is repeated
-        int result = findFirstNonRepeat(noRepeats);
-        giveResult(result);
+        Scanner fileScanner = new Scanner(new File(FILE_NAME));
+
+        while (fileScanner.hasNextLine()) {
+
+            currentString = fileScanner.nextLine();
+            if(!currentString.equals("")) { //allows us to throw away blank lines
+                //first count letters in the word
+                countLetters(currentString);
+
+                //second go through word and see if letter is repeated
+                int result = findFirstNonRepeat(currentString);
+                giveResult(result);
+
+                resetTracker();
+            }
+        }
+
+        fileScanner.close();//this closes the file so that other programs can read/write it
+    }
+
+    /**
+     * This method resets the array so that other strings in the file are not biased by previous strings.
+     */
+    public static void resetTracker(){
+        Arrays.fill(tracker, 0);
+
+        // could also be done using:
+        /*
+        for(int i = 0; i < tracker.length; i ++){
+            tracker[i] = 0;
+        }
+         */
     }
 
     /**
@@ -26,10 +63,10 @@ public class FirstNonRepeatingChar {
      */
     public static void giveResult(int result){
         if( result > 0 && result < 256) {
-            System.out.println("The first non-repeated letter in " + noRepeats + " is: " + (char) (result));//https://www.javatpoint.com/java-int-to-char
+            System.out.println("The first non-repeated letter in " + currentString + " is: " + (char) (result));//https://www.javatpoint.com/java-int-to-char
         }
         else {
-            System.out.println("Every letter in \"" + noRepeats + "\" is repeated.");
+            System.out.println("Every letter in \"" + currentString + "\" is repeated.");
         }
     }
 
