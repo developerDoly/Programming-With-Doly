@@ -22,25 +22,27 @@ public class FirstNonRepeatingChar {
 
     /**
      * This method tells interprets results of the program for the user.
-     * @param result
+     * @param result int the integer representation of the first non-repeated char
      */
     public static void giveResult(int result){
         if( result > 0 && result < 256) {
-            System.out.println("The first non-repeated letter in " + noRepeats + " is: " + (char) (result + '0'));//https://www.javatpoint.com/java-int-to-char
+            System.out.println("The first non-repeated letter in " + noRepeats + " is: " + (char) (result));//https://www.javatpoint.com/java-int-to-char
         }
-        System.out.println("Every letter in \"" + noRepeats + "\" is repeated.");
+        else {
+            System.out.println("Every letter in \"" + noRepeats + "\" is repeated.");
+        }
     }
 
     /**
      * This method goes through the word and checks if a letter is unique in that word by going through the array of
      * letter counts.
-     * @param content
-     * @return
+     * @param content String the inputed string
+     * @return int representation of the first non-repeated char
      */
     public static int findFirstNonRepeat(String content){
         for(int i = 0; i < content.length(); i++) {
             if (tracker[content.charAt(i)] == 1) {//this does not store the char, this is more efficient than in countLetters()
-                return i;
+                return content.charAt(i);
             }
         }
         return -1;
@@ -48,7 +50,7 @@ public class FirstNonRepeatingChar {
 
     /**
      *This method counts the number of each letter in the word and puts that count in the array.
-     * @param content
+     * @param content String the inputed string
      */
     public static void countLetters(String content){
         char letter;
